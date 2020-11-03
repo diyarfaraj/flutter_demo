@@ -14,23 +14,44 @@ class DemoApp extends StatefulWidget {
 }
 
 class _DemoAppState extends State<DemoApp> {
-  var _questionIndex = 0;
   final _questions = [
     {
       'q': 'Din favorit färg?',
-      'a': ['Black', 'Red', 'White', 'Green']
+      'a': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'White', 'score': 3},
+      ]
     },
     {
       'q': 'Din favorit djur?',
-      'a': ['Wolf', 'Bear', 'Hund', 'elak kääat']
+      'a': [
+        {'text': 'Chihuaua', 'score': 10},
+        {'text': 'Hund', 'score': 5},
+        {'text': 'Wholf', 'score': 3},
+      ]
     },
     {
       'q': 'Favorite instructor?',
-      'a': ['Diyar', 'Diyar', 'Diyar', 'Diyar']
+      'a': [
+        {'text': 'Diyar', 'score': 10},
+        {'text': 'Diyar', 'score': 5},
+        {'text': 'Diyar', 'score': 3},
+      ]
     },
   ];
+  var _totalScore = 0;
+  var _questionIndex = 0;
 
-  answerQs() {
+  void resetQuiz() {
+    setState(() {
+      _totalScore = 0;
+      _questionIndex = 0;
+    });
+  }
+
+  void answerQs(int score) {
+    _totalScore += score;
     setState(() {
       _questionIndex++;
     });
@@ -52,7 +73,7 @@ class _DemoAppState extends State<DemoApp> {
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : Result(),
+            : Result(_totalScore, resetQuiz),
       ),
     );
   }
