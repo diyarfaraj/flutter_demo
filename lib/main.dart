@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/question.dart';
-import './main.dart';
-import './answer.dart';
+import 'package:flutter_demo/result.dart';
+import './quiz.dart';
 
 void main() {
   runApp(DemoApp());
@@ -10,14 +9,13 @@ void main() {
 class DemoApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _DemoAppState();
   }
 }
 
 class _DemoAppState extends State<DemoApp> {
   var _questionIndex = 0;
-  final questions = [
+  final _questions = [
     {
       'q': 'Din favorit färg?',
       'a': ['Black', 'Red', 'White', 'Green']
@@ -36,7 +34,7 @@ class _DemoAppState extends State<DemoApp> {
     setState(() {
       _questionIndex++;
     });
-    if (_questionIndex < questions.length) {
+    if (_questionIndex < _questions.length) {
       print(_questionIndex);
     }
   }
@@ -48,20 +46,13 @@ class _DemoAppState extends State<DemoApp> {
         appBar: AppBar(
           title: Text('demo app'),
         ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: <Widget>[
-                  Question(
-                    questions[_questionIndex]['q'],
-                  ),
-                  ...(questions[_questionIndex]['a'] as List<String>)
-                      .map((answer) => Answer(answerQs, answer))
-                      .toList(),
-                ],
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: answerQs,
+                questionIndex: _questionIndex,
+                questions: _questions,
               )
-            : Center(
-                child: Text('you did it'),
-              ),
+            : Result(),
       ),
     );
   }
